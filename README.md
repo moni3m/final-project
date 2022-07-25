@@ -1,7 +1,7 @@
 # final-project
 Premise
 
-Trainees will be required to put together an ETL Pipeline for mock data from a fictionalised version of Sparta Global. Future references to the workings of Sparta Global refer to the invented scenario for this project.Candidates for the academy have their contact details collected and then are invited to a particular Sparta Day. During the SpartaDay, each candidate’s performance on their psychometric tests and presentation are recorded. Each candidate is interviewed, and notes are made about their strengths, weaknesses, technologies known, etc. Their final result (pass / fail) and course interestis also noted.Assuming they pass the interview, candidates may end up attending the Sparta Academy. Each week, scores out of 8 are recorded for their performance on the 6 behaviourss used to assess trainees. Candidates with low scores may be removed fromthe academy.
+Trainees will be required to put together an ETL Pipeline for mock data from a fictionalised version of Sparta Global. Candidates for the academy have their contact details collected and then are invited to a particular Sparta Day. During the SpartaDay, each candidate’s performance on their psychometric tests and presentation are recorded. Each candidate is interviewed, and notes are made about their strengths, weaknesses, technologies known, etc. Their final result (pass / fail) and course interestis also noted.Assuming they pass the interview, candidates may end up attending the Sparta Academy. Each week, scores out of 8 are recorded for their performance on the 6 behaviourss used to assess trainees. Candidates with low scores may be removed from the academy.
 
 Task
 

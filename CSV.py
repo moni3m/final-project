@@ -19,32 +19,36 @@ def bucket_contents(bucket_name: str, aws_prefix: str):
     return contents
 
 
-def get_all_files(bucket_name: str, aws_prefix: str):  # function iterates through each page
+def get_all_files(bucket_name: str, aws_prefix: str, file_ending: str =".csv"):  # function iterates through each page
     csv_list = []
     for page in bucket_contents(bucket_name, aws_prefix):
         if "Contents" in page:
-            for key in get_all_files("data-eng-30-final-project-files", "Talent/")["Contents"]:
+            for key in page["Contents"]:
                 #print(key)
-                if ".csv" and key["Key"].endswith(".csv"):  # checks to see if files are in csv
+                if file_ending and key["Key"].endswith(file_ending):  # checks to see if files are in csv
                     keystring = key["Key"]  # gets filename of all csv files
                     objectbody = connect_to_bucket().get_object(Bucket=bucket_name, Key=keystring)  # retrieves the body data from each csv
                     readbody = pd.read_csv(objectbody["Body"])
                     pd.set_option("display.max_columns", None)
                     csv_list.append(readbody)
-            return csv_list
+    return csv_list
 
 
+def merge_csv(bucket_name: str, aws_prefix: str, file_ending: str =".csv"):
+    all_csv = pd.concat(get_all_files(bucket_name, aws_prefix, file_ending), ignore_index=True)
+    return all_csv
 
-# def get_csv(bucket_name: str, aws_prefix: str):
-#     csv_list = []
-#     for key in get_all_files(bucket_name, aws_prefix)["Contents"]:
-#         if ".csv" and key["Key"].endswith(".csv"):  # checks to see if files are in csv
-#             keystring = key["Key"]  # gets filename of all csv files
-#             objectbody = connect_to_bucket().get_object(Bucket=bucket_name, Key=keystring)  # retrieves the body data from each csv
-#             readbody = pd.read_csv(objectbody["Body"])
-#             #pd.set_option("display.max_columns", None)
-#             csv_list.append(readbody)
-#             return readbody
-#
-#
-# print(get_csv("data-eng-30-final-project-files", "Talent/"))
+
+def convert_to_csv(bucket_name: str, aws_prefix: str, file_ending: str =".csv"):
+    return merge_csv(bucket_name, aws_prefix, file_ending).to_csv("Candidates3.csv")
+
+
+def execute_all(bucket_name: str, aws_prefix: str,file_ending: str =".csv"):
+    get_all_files(bucket_name, aws_prefix, file_ending)
+    merge_csv(bucket_name, aws_prefix, file_ending)
+    return convert_to_csv(bucket_name, aws_prefix, file_ending)
+
+
+print(execute_all("data-eng-30-final-project-files", "Talent/", ".csv"))
+
+

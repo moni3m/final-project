@@ -1,24 +1,34 @@
-import pprint
-
-import pandas as pd
-import ppprint
-import json
-
-from json_file_operations import *
+from text_file_operations import *
 
 bucket = 'data-eng-30-final-project-files'
 aws_prefix = 'Talent/'
 
 
 json_files = download_json_filenames(bucket, aws_prefix)
-pprint.pp(json_files)
-consolidated_json_object = list()
+tech_scores_headers = 'name' + unique_keyword_generator_for_dictionaries(json_files, 'tech_self_score')
+strength_headers = 'name' + unique_keyword_generator_for_lists(json_files[:11], 'strengths')
+weakness_headers = 'name' + unique_keyword_generator_for_lists(json_files[:11], 'weaknesses')
 
-pprint.pp(len(json_files))
+print(unique_keyword_generator_for_dictionaries(json_files[:11], 'tech_self_score'))
+print()
+print(unique_keyword_generator_for_lists(json_files[:11], 'strengths'))
 
-# for file in json_files:
-#     json_object = get_json_object(bucket, file)
-#     consolidated_json_object.append(json_object)
+
+
+
+# json_object = get_json_object(bucket, json_files[0])
+# headers = list(json_object.keys())
+# values = list(json_object.values())
+# tech_self_score_tuple = [(v, k) for v, k in json_object['tech_self_score'].items()]
+# pprint.pp(json_object)
+# json_object['tech_self_score'] = tech_self_score_tuple
+
+
+# print(len(values))
+# print(len(headers))
+
+
+
 #
 # pprint.pp(consolidated_json_object)
 #

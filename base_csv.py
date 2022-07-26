@@ -23,8 +23,8 @@ for page in contents:
     if "Contents" in page:
         for key in page["Contents"]:
             if ".csv" and key["Key"].endswith(".csv"):  # checks to see if files are in csv
-                keystring = key["Key"]# gets filename of all csv files
-                objectbody = s3_client.get_object(Bucket=bucket_name, Key=keystring)["Body"] # retrieves the body data from each csv
+                keystring = key["Key"]  # gets filename of all csv files
+                objectbody = s3_client.get_object(Bucket=bucket_name, Key=keystring)["Body"]  # retrieves the body data from each csv
                 readbody = pd.read_csv(objectbody)
                 pd.set_option("display.max_columns", None)
                 csv_files.append(readbody)

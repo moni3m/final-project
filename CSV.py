@@ -49,4 +49,3 @@ def execute_all(bucket_name: str, aws_prefix: str,file_ending: str =".csv"):  # 
 
 
 print(execute_all("data-eng-30-final-project-files", "Talent/", ".csv"))
-

@@ -1,4 +1,4 @@
-from text_file_operations import *
+from json_file_operations import *
 
 bucket = 'data-eng-30-final-project-files'
 aws_prefix = 'Talent/'

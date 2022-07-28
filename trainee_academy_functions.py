@@ -43,7 +43,7 @@ def create_workstream_df(file):
         workstream.append(workstream_name)
     df.insert(1, 'workstream_name', workstream, True)
 
-    nan_rows_df = df[df.isna().any(axis=1)]
+    nan_rows_df = df[df['Analytic_W8'].isnull()]
     discontinued_students = nan_rows_df['name'].tolist()
     student_status = []
     for student in df['name']:

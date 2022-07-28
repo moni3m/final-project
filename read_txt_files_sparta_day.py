@@ -97,5 +97,4 @@ c = sqliteConnection.cursor()
 # data.to_sql('candidatesss', sqliteConnection, if_exists='append', index = False)
 # c = conn.cursor()
 
-
 main.to_sql('text_files', conn, if_exists='append', index = False)

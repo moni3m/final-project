@@ -86,15 +86,16 @@ df = get_raw_df(s3_client, bucket_name, bucket_contents)  # Getting the row data
 
 main = clean_df(df)  # Clean row data frame
 
+main.to_csv('candidate_day_information.csv', header=True, mode='w')
 # upload(main)  # Uploading data frame
 
 ##############################################################################################
-sqliteConnection = sqlite3.connect('project.db')
-conn = sqlite3.connect('candidates.db')
-
-c = sqliteConnection.cursor()
+# sqliteConnection = sqlite3.connect('project.db')
+# conn = sqlite3.connect('candidates.db')
+#
+# c = sqliteConnection.cursor()
 
 # data.to_sql('candidatesss', sqliteConnection, if_exists='append', index = False)
 # c = conn.cursor()
 
-main.to_sql('text_files', conn, if_exists='append', index = False)
+# main.to_sql('text_files', conn, if_exists='append', index = False)

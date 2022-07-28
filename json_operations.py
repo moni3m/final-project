@@ -1,6 +1,5 @@
 from json_functions import *
 import sqlite3
-=======
 
 
 bucket = 'data-eng-30-final-project-files'
@@ -52,8 +51,6 @@ candidate_strengths_df.to_sql('candidate_strengths', conn, if_exists='append', i
 candidate_weaknesses_df.to_sql('candidate_weaknesses', conn, if_exists='append', index = False)
 
 
-
-=======
 
 # 5. Generate CSV files
 candidate_information_df.to_csv('candidate_information.csv', header=True, mode='w')

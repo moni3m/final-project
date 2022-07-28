@@ -1,0 +1,67 @@
+import boto3
+from pprint import pprint
+import pandas as pd
+import sqlite3
+
+
+
+pd.options.display.max_rows = 99999
+
+# connect to S3 client and bucket
+s3_client = boto3.client("s3")
+s3_resource = boto3.resource("s3")
+
+# Name of bucket
+bucket_name = "data-eng-30-final-project-files"
+aws_prefix = "Talent/"
+
+# code that allows us to iterate through all pages in S3 bucket
+paginator = s3_client.get_paginator("list_objects_v2")
+contents = paginator.paginate(Bucket=bucket_name, Prefix=aws_prefix)
+
+# extract all CSv files and places it into a list
+csv_files = []
+for page in contents:
+    if "Contents" in page:
+        for key in page["Contents"]:
+            if ".csv" and key["Key"].endswith(".csv"):  # checks to see if files are in csv
+                keystring = key["Key"]  # gets filename of all csv files
+                objectbody = s3_client.get_object(Bucket=bucket_name, Key=keystring)["Body"]  # retrieves the body data from each csv
+                readbody = pd.read_csv(objectbody)
+                pd.set_option("display.max_columns", None)
+                csv_files.append(readbody)
+
+# merges all csv files into one list
+all_csv = pd.concat(csv_files, ignore_index=True)
+#print(all_csv)
+
+
+# transform the datat type for the date column
+print(all_csv.dtypes)
+all_csv.invited_date = all_csv.invited_date.astype(str)
+
+# merge columns together
+all_csv["invited_day"] = all_csv["invited_date"] + " " + all_csv["month"]
+print(all_csv.head())
+
+# REMOVE column from dataFrame
+all_csv.pop('invited_date')
+all_csv.pop('month')
+
+
+# converts list into a csv file
+# all_csv.to_csv("Candidates.csv")
+
+print(all_csv.head())
+##################################################################################
+
+sqliteConnection = sqlite3.connect('project.db')
+conn = sqlite3.connect('candidates.db')
+
+c = sqliteConnection.cursor()
+
+all_csv.to_sql('candidatesss', sqliteConnection, if_exists='append', index = False)
+# c = conn.cursor()
+
+
+all_csv.to_sql('candidate_info', conn, if_exists='append', index = False)

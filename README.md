@@ -18,3 +18,13 @@ Task
 6. The code written should be housed in a GitHub repository, with an appropriate Git workflow (e.g. Git Feature Branch Workflow)
 
 7. On the final day of their course, the trainees will give a 30-60 minute presentation to present their solution.
+
+
+
+Data
+The data are to be provided to the students in an S3 bucket within AWS. The contents of data-engineering-project-master should be copied to a class-specific bucket during the Cloud module. The data are grouped into the following collections:
+	•	‘Talent’ contains:
+	◦	one CSV file per month of 2019, with information on candidates invited to a Sparta Assessment Day
+	◦	one TXT file per Sparta Day, with the date and location of the event followed by a list of candidates along with their psychometric and presentation scores.
+	◦	one JSON file per candidate, with notes on their answers to key interview questions, and a final pass/fail decision.
+	•	‘Academy’ contains one CSV file per course, with data on trainees’ behavioural competency scores.

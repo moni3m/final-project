@@ -1,10 +1,13 @@
 import boto3
 import pandas as pd
+import sqlite3
+# conn = sqlite3.connect('candidates.db')
+# c = conn.cursor()
+
 
 s3_client = boto3.client('s3')
 s3_resource = boto3.resource('s3')
 bucket_name = "data-eng-30-final-project-files"
-
 
 # Access the Talent txt files
 AWS_BUCKET_PREFIX = 'Talent/Sparta'
@@ -45,7 +48,7 @@ def merge_text_files(df):  # Merging all files into a raw CSV files
 
 
 def get_raw_df(s3_client, bucket_name, bucket_contents):  # Getting Raw Data Frame from combining all the text files
-    df = get_text_files(s3_client, bucket_name, bucket_contents)  #  getting all the text files
+    df = get_text_files(s3_client, bucket_name, bucket_contents)  # getting all the text files
     return df  # Returning the Raw Data Frame
 
 
@@ -70,19 +73,28 @@ def clean_df(df):  # Cleaning the Data frame
     main['Presentation Result'] = main['Presentation Result'].str.replace('Presentation: ', '')
     main['Academy Location'] = main['Academy Location'].str.replace(' Academy', '')
 
+    for i in main["Date"]:  # Change Dates
+        main["Date"] = pd.to_datetime(main["Date"])
+
     main = main.reset_index()  # Reset The index number in an ascending
+
+    for i in range(len(main['Psychometrics Result'])):  # change the result to a percentage
+        main['Psychometrics Result'][i] = eval(main['Psychometrics Result'][i])*100
+    for i in range(len(main['Presentation Result'])):  # Change the result to a percentage
+        main['Presentation Result'][i] = eval(main['Presentation Result'][i])*100
+
     del main['index']  # Delete the Index Table due to Inconsistency
     return main  # Return clean Data frame
 
 
 def upload(main):
-    main.to_csv("cleaned.csv")
-    # s3_client.upload_file (  # Download the file one by one
-    #     Filename="latest_update.csv", Bucket=bucket_name, Key="Cleaned.csv")
+    main.to_csv("Result.csv")
+#     main.to_sql("Result.csv")
 
+# Result.to_sql('trainees', conn, if_exists='append', index = False)
 
 df = get_raw_df(s3_client, bucket_name, bucket_contents)  # Getting the row data frame
 
 main = clean_df(df)  # Clean row data frame
 
-upload(main)  # Uploading data frame
+upload(main)  # Uploading data

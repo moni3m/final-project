@@ -2,24 +2,22 @@ import boto3
 from pprint import pprint
 import pandas as pd
 
-pd.options.display.max_rows = 99999
-s3_resource = boto3.resource("s3")
-# bucket_name = "data-eng-30-final-project-files"
-# aws_prefix = "Talent/"
 
-
-def connect_to_bucket():  # function to connect to the S3 bucket
+# function to connect to the S3 bucket
+def connect_to_bucket():
     s3_client = boto3.client("s3")
     return s3_client
 
 
-def bucket_contents(bucket_name: str, aws_prefix: str):  # function to retrieve the contents of the bucket for every page
+# function to retrieve the contents of the bucket for every page
+def bucket_contents(bucket_name: str, aws_prefix: str):
     paginator = connect_to_bucket().get_paginator("list_objects_v2")
     contents = paginator.paginate(Bucket=bucket_name, Prefix=aws_prefix)
     return contents
 
 
-def get_all_files(bucket_name: str, aws_prefix: str, file_ending: str =".csv"):  # function to iterate through contents of bucket
+# function to iterate through contents of bucket
+def get_all_files(bucket_name: str, aws_prefix: str, file_ending: str ):
     csv_list = []  # list to store CSV files
     for page in bucket_contents(bucket_name, aws_prefix):
         if "Contents" in page:  # checks if "Contents" exists in each object
@@ -33,19 +31,19 @@ def get_all_files(bucket_name: str, aws_prefix: str, file_ending: str =".csv"): 
     return csv_list
 
 
-def merge_csv(bucket_name: str, aws_prefix: str, file_ending: str =".csv"):  # function to merge all csv files together
+# function to merge all csv files together
+def merge_csv(bucket_name: str, aws_prefix: str, file_ending: str ):
     all_csv = pd.concat(get_all_files(bucket_name, aws_prefix, file_ending), ignore_index=True)
     return all_csv
 
 
-def convert_to_csv(bucket_name: str, aws_prefix: str, file_ending: str =".csv"):  # function to create csv file from the merged list
-    return merge_csv(bucket_name, aws_prefix, file_ending).to_csv("Candidates3.csv")
+# function to create csv file from the merged list
+def convert_to_csv(bucket_name: str, aws_prefix: str, file_ending: str, file_name: str):
+    return merge_csv(bucket_name, aws_prefix, file_ending).to_csv(file_name)
 
 
-def execute_all(bucket_name: str, aws_prefix: str,file_ending: str =".csv"):  # function executes all previous function simultanously to extract and create a CSV file
+# function executes all previous function simultaneously to extract and create a CSV file
+def execute_all(bucket_name: str, aws_prefix: str, file_ending: str, file_name: str):
     get_all_files(bucket_name, aws_prefix, file_ending)
     merge_csv(bucket_name, aws_prefix, file_ending)
-    return convert_to_csv(bucket_name, aws_prefix, file_ending)
-
-
-print(execute_all("data-eng-30-final-project-files", "Talent/", ".csv"))
+    return convert_to_csv(bucket_name, aws_prefix, file_ending, file_name)

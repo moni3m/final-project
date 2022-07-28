@@ -85,4 +85,4 @@ df = get_raw_df(s3_client, bucket_name, bucket_contents)  # Getting the row data
 
 main = clean_df(df)  # Clean row data frame
 
-upload(main)  # Uploading data frame back to S3
+upload(main)  # Uploading data frame

@@ -1,5 +1,6 @@
 import boto3
 import pandas as pd
+import sqlite3
 
 s3_client = boto3.client('s3')
 s3_resource = boto3.resource('s3')
@@ -85,4 +86,16 @@ df = get_raw_df(s3_client, bucket_name, bucket_contents)  # Getting the row data
 
 main = clean_df(df)  # Clean row data frame
 
-upload(main)  # Uploading data frame
+# upload(main)  # Uploading data frame
+
+##############################################################################################
+sqliteConnection = sqlite3.connect('project.db')
+conn = sqlite3.connect('candidates.db')
+
+c = sqliteConnection.cursor()
+
+# data.to_sql('candidatesss', sqliteConnection, if_exists='append', index = False)
+# c = conn.cursor()
+
+
+main.to_sql('text_files', conn, if_exists='append', index = False)

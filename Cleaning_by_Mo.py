@@ -4,6 +4,7 @@ import pandas as pd
 import sqlite3
 
 
+
 pd.options.display.max_rows = 99999
 
 # connect to S3 client and bucket
@@ -43,7 +44,7 @@ all_csv.invited_date = all_csv.invited_date.astype(str)
 all_csv["invited_day"] = all_csv["invited_date"] + " " + all_csv["month"]
 print(all_csv.head())
 
-#remove column from dataFrame
+# REMOVE column from dataFrame
 all_csv.pop('invited_date')
 all_csv.pop('month')
 
@@ -54,13 +55,13 @@ all_csv.pop('month')
 print(all_csv.head())
 ##################################################################################
 
-# sqliteConnection = sqlite3.connect('project.db')
-# conn = sqlite3.connect('candidates.db')
-#
-# c = sqliteConnection.cursor()
-#
-# # data.to_sql('candidatesss', sqliteConnection, if_exists='append', index = False)
-# # c = conn.cursor()
-#
-#
-# all_csv.to_sql('trainees2', conn, if_exists='append', index = False)
+sqliteConnection = sqlite3.connect('project.db')
+conn = sqlite3.connect('candidates.db')
+
+c = sqliteConnection.cursor()
+
+all_csv.to_sql('candidatesss', sqliteConnection, if_exists='append', index = False)
+# c = conn.cursor()
+
+
+all_csv.to_sql('candidate_info', conn, if_exists='append', index = False)

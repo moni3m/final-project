@@ -4,7 +4,7 @@ import sqlite3
 
 
 sqliteConnection = sqlite3.connect('project.db')
-conn = sqlite3.connect('candidates.db')
+conn = sqlite3.connect('sparta_global.db')
 
 c = sqliteConnection.cursor()
 
@@ -18,7 +18,6 @@ trainee_weekly_scores.to_sql('trainee_weekly_scores', conn, if_exists='append', 
 tech_workstream.to_sql('tech_workstream', conn, if_exists='append', index = False)
 trainer_information.to_sql('trainer_information', conn, if_exists='append', index = False)
 academy_information.to_sql('academy_information', conn, if_exists='append', index = False)
-spartan_information.to_sql('spartan_information', conn, if_exists='append', index = False)
 recruiter_information.to_sql('recruiter_information', conn, if_exists='append', index = False)
 trainee_information.to_sql('trainee_information', conn, if_exists='append', index = False)
 

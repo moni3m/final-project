@@ -16,7 +16,7 @@ df_list = create_df_list(files)
 combined_df = combine_dfs(df_list)
 
 # Converting combined dataframe to csv format.
-combined_df.to_csv('trainee_information.csv', header=True, mode='w')
+combined_df.to_csv('consolidated_trainee_information.csv', header=True, mode='w')
 
 
 

@@ -1,7 +1,8 @@
-from CSV_operations import *
+from CSV_operations import *  # This runs the code necessary to produce the applicant tables/files
 from normalisation_functions import *  # This imports the functions to generate the id tables
-from json_operations import *
-from read_txt_files_sparta_day import *
+from json_operations import *  # This runs the code necessary to produce the candidate tables from the json files
+from read_txt_files_sparta_day import *  # This runs the code necessary to produce the candidate tables/files from the txt files
+from trainee_academy_operations import * # This runs the code necessary to produce the trainee, trainers and workstream files
 
 pd.set_option('display.width', 400)
 pd.set_option('display.max_columns', 20)
@@ -19,7 +20,7 @@ candidate_weaknesses_initial_df = pd.read_csv('candidate_weaknesses.csv')
 candidate_day_df = pd.read_csv('candidate_day_information.csv')
 
 # Generate Trainee Data
-trainee_initial_df = pd.read_csv('trainee_information.csv')
+trainee_initial_df = pd.read_csv('consolidated_trainee_information.csv')
 
 # Generate various lists
 recruiters_list = column_to_list_generator(applicant_initial_df, 'invited_by')
@@ -73,11 +74,11 @@ candidate_tech_scores = candidate_tech_scores.drop(dropped_candidate_info_column
 
 # 3. Trainees Table
 trainees = pd.merge(spartans_table, trainee_initial_df, left_on=['spartan_name'], right_on=['name'])
-trainees = pd.merge(trainees, tech_workstream_table, left_on='workstream_name', right_on='tech_workstream_name')
-trainees = pd.merge(trainees, trainer_table, left_on='trainer', right_on='trainer_name')
+trainees = pd.merge(trainees, tech_workstream_table, left_on=['workstream_name'], right_on='tech_workstream_name')
+trainees = pd.merge(trainees, trainer_table, left_on=['trainer'], right_on=['trainer_name'])
 
 trainee_information = trainees[['spartan_id', 'tech_workstream_id', 'trainer_id', 'status']]
-dropped_trainee_info_for_scores = ['spartan_name', 'Unnamed: 0', 'name', 'status', 'workstream_name', 'trainer', 'tech_workstream_id', 'tech_workstream_name', 'trainer_name', 'trainer_id']
+dropped_trainee_info_for_scores = ['spartan_name', 'Unnamed: 0', 'name', 'status', 'workstream_name', 'trainer', 'tech_workstream_name', 'trainer_name', 'trainer_id']
 trainee_scores = trainees.drop(dropped_trainee_info_for_scores, axis=1)
 
 tech_workstream = pd.merge(tech_workstream_table, trainee_information, left_on='tech_workstream_id', right_on='tech_workstream_id')
@@ -86,7 +87,7 @@ tech_workstream = tech_workstream.drop(dropped_tech_workstream_columns, axis=1)
 
 #######################################################################################################################
 
-# List out normalised dataframes
+# 4. List out normalised dataframes
 applicant_information = applicant_information
 candidate_pp_scores = candidate_pp_scores
 candidate_tech_scores = candidate_tech_scores
@@ -99,8 +100,25 @@ trainer_information = trainer_table
 academy_information = academy_table
 spartan_information = spartans_table
 recruiter_information = recruiters_table
+trainee_information = trainee_information
 
-print(applicant_information[10:].head())
+print(recruiter_information)
+#######################################################################################################################
+
+# 5. Generate the csv files for the normalised dataframes
+applicant_information.to_csv('applicant_information.csv', header=True, mode='w')
+candidate_pp_scores.to_csv('candidate_pp_scores.csv', header=True, mode='w')
+candidate_tech_scores.to_csv('candidate_tech_scores.csv', header=True, mode='w')
+candidate_information.to_csv('candidate_information.csv', header=True, mode='w')
+candidate_strengths.to_csv('candidate_strengths.csv', header=True, mode='w')
+candidate_weaknesses.to_csv('candidate_weaknesses.csv', header=True, mode='w')
+trainee_weekly_scores.to_csv('trainee_weekly_scores.csv', header=True, mode='w')
+tech_workstream.to_csv('tech_workstream.csv', header=True, mode='w')
+trainer_information.to_csv('trainer_information.csv', header=True, mode='w')
+academy_information.to_csv('academy_information.csv', header=True, mode='w')
+spartan_information.to_csv('spartan_information.csv', header=True, mode='w')
+recruiter_information.to_csv('applicant_information.csv', header=True, mode='w')
+
 
 
 

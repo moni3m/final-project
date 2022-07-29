@@ -55,7 +55,7 @@ dropped_candidate_pp_columns = ['Unnamed: 0', 'spartan_name', 'Candidate Name', 
 candidate_pp_scores = candidate_pp_scores.drop(dropped_candidate_pp_columns, axis=1)
 
 candidate_information = pd.merge(spartans_table, candidate_information_initial_df, left_on=['spartan_name'], right_on=['name'])
-dropped_candidate_info_columns = ['Unnamed: 0', 'spartan_name', 'name']
+dropped_candidate_info_columns = ['Unnamed: 0', 'spartan_name']
 candidate_information = candidate_information.drop(dropped_candidate_info_columns, axis=1)
 
 candidate_strengths = pd.merge(spartans_table, candidate_strengths_initial_df, left_on=['spartan_name'], right_on=['name'])
@@ -88,7 +88,7 @@ tech_workstream = tech_workstream.drop(dropped_tech_workstream_columns, axis=1)
 #######################################################################################################################
 
 # 4. List out normalised dataframes
-applicant_information = applicant_information
+spartan_information = applicant_information
 candidate_pp_scores = candidate_pp_scores
 candidate_tech_scores = candidate_tech_scores
 candidate_information = candidate_information
@@ -98,26 +98,24 @@ trainee_weekly_scores = trainee_scores
 tech_workstream = tech_workstream
 trainer_information = trainer_table
 academy_information = academy_table
-spartan_information = spartans_table
 recruiter_information = recruiters_table
 trainee_information = trainee_information
 
-print(recruiter_information)
 #######################################################################################################################
 
 # 5. Generate the csv files for the normalised dataframes
-applicant_information.to_csv('applicant_information.csv', header=True, mode='w')
-candidate_pp_scores.to_csv('candidate_pp_scores.csv', header=True, mode='w')
-candidate_tech_scores.to_csv('candidate_tech_scores.csv', header=True, mode='w')
-candidate_information.to_csv('candidate_information.csv', header=True, mode='w')
-candidate_strengths.to_csv('candidate_strengths.csv', header=True, mode='w')
-candidate_weaknesses.to_csv('candidate_weaknesses.csv', header=True, mode='w')
-trainee_weekly_scores.to_csv('trainee_weekly_scores.csv', header=True, mode='w')
-tech_workstream.to_csv('tech_workstream.csv', header=True, mode='w')
-trainer_information.to_csv('trainer_information.csv', header=True, mode='w')
-academy_information.to_csv('academy_information.csv', header=True, mode='w')
-spartan_information.to_csv('spartan_information.csv', header=True, mode='w')
-recruiter_information.to_csv('applicant_information.csv', header=True, mode='w')
+applicant_information.to_csv('spartan_information_normalised.csv', header=True, mode='w')
+candidate_pp_scores.to_csv('candidate_pp_scores_normalised.csv', header=True, mode='w')
+candidate_tech_scores.to_csv('candidate_tech_scores_normalised.csv', header=True, mode='w')
+candidate_information.to_csv('candidate_information_normalised.csv', header=True, mode='w')
+candidate_strengths.to_csv('candidate_strengths_normalised.csv', header=True, mode='w')
+candidate_weaknesses.to_csv('candidate_weaknesses_normalised.csv', header=True, mode='w')
+trainee_information.to_csv('trainee_information_normalised.csv', header=True, mode='w')
+trainee_weekly_scores.to_csv('trainee_weekly_scores_normalised.csv', header=True, mode='w')
+tech_workstream.to_csv('tech_workstream_normalised.csv', header=True, mode='w')
+trainer_information.to_csv('trainer_information_normalised.csv', header=True, mode='w')
+academy_information.to_csv('academy_information_normalised.csv', header=True, mode='w')
+recruiter_information.to_csv('applicant_information_normalised.csv', header=True, mode='w')
 
 
 
